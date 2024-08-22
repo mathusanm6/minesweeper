@@ -45,5 +45,6 @@ sources/0 = SubResource("TileSetAtlasSource_4pxvv")
 [node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
+scale = Vector2(3, 3)
 tile_set = SubResource("TileSet_ypy81")
 script = ExtResource("2_eqje7")
