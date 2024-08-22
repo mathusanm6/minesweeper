@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://dixoivgjsicmm"]
+[gd_scene load_steps=5 format=3 uid="uid://dixoivgjsicmm"]
 
 [ext_resource type="Texture2D" uid="uid://bv2e0jalfn66y" path="res://Assets/minesweeper_atlas.png" id="1_ipkrq"]
+[ext_resource type="Script" path="res://Scripts/mines_grid.gd" id="2_eqje7"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4pxvv"]
 texture = ExtResource("1_ipkrq")
@@ -45,3 +46,4 @@ sources/0 = SubResource("TileSetAtlasSource_4pxvv")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 tile_set = SubResource("TileSet_ypy81")
+script = ExtResource("2_eqje7")
