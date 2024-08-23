@@ -7,7 +7,7 @@ Minesweeper is a classic puzzle game where the objective is to clear a rectangul
 The game is currently under development using Godot 4. Below is an image showcasing the current progress of the game:
 
 <p align="center">
-    <img src="resources/progress.png" width="500px">
+	<img src="resources/progress.png" width="500px">
 </p>
 
 ## Development Tools and Technologies
