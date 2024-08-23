@@ -2,6 +2,10 @@ extends TileMapLayer
 
 class_name MinesGrid
 
+signal flag_change(number_of_flags)
+signal game_lost
+signal game_won
+
 const CELLS = {
 	"1": Vector2i(0, 0),
 	"2": Vector2i(1, 0),
@@ -66,7 +70,7 @@ func set_tile_cell(cell_coord: Vector2i, cell_type: String):
 
 func on_cell_clicked(cell_coord: Vector2i):
 	if cells_with_mines.any(func (cell): return cell.x == cell_coord.x && cell.y == cell_coord.y):
-		print("YOU LOSE")
+		lose(cell_coord)
 		return
 	
 	cells_checked_recursively.append(cell_coord)
@@ -108,3 +112,11 @@ func get_surrounding_cells_mine_count(cell_coord: Vector2i):
 		if tile_data and tile_data.get_custom_data("has_mine"):
 			mine_count += 1
 	return mine_count
+
+func lose(cell_coord: Vector2i):
+	game_lost.emit()
+	
+	for cell in cells_with_mines:
+		set_tile_cell(cell, "MINE")
+	
+	set_tile_cell(cell_coord, "MINE_RED")
