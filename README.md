@@ -10,11 +10,11 @@ The game is currently under development using Godot 4. Below is an image showcas
   <tr>
     <td style="text-align: center;">
       <img src="resources/board.png" width="500px"><br>
-      <span style="font-weight: lighter;">Strategic Play</span>
+      <span style="font-weight: lighter;text-align: center;">Strategic Play</span>
     </td>
     <td style="text-align: center;">
       <img src="resources/bomb_exploded.png" width="500px"><br>
-      <span style="font-weight: lighter;">Game Over! Bomb Exploded</span>
+      <span style="font-weight: lighter;text-align: center;">Game Over! Bomb Exploded</span>
     </td>
   </tr>
 </table>
