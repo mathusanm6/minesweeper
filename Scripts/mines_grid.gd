@@ -28,7 +28,10 @@ const CELLS = {
 
 const TILE_SET_ID = 0
 
+var is_game_finished = false
 var cells_with_mines = []
+var cells_with_flags = []
+var flags_placed = 0
 var cells_checked_recursively = []
 
 func _ready() -> void:
@@ -42,6 +45,9 @@ func _ready() -> void:
 	place_mines()
 
 func _input(event: InputEvent):
+	if is_game_finished:
+		return
+	
 	if !(event is InputEventMouseButton) || !event.is_pressed():
 		return
 	
@@ -50,7 +56,7 @@ func _input(event: InputEvent):
 	if event.button_index == 1:
 		on_cell_clicked(clicked_cell_coord)
 	elif event.button_index == 2:
-		print("PLACE FLAG")
+		place_flag(clicked_cell_coord)
 
 func place_mines():
 	for i in number_of_mines:
@@ -106,7 +112,7 @@ func handle_surrounding_cell(cell_coord: Vector2i):
 	
 func get_surrounding_cells_mine_count(cell_coord: Vector2i):
 	var mine_count = 0
-	var surrounding_cells = get_surrounding_cells(cell_coord)
+	var surrounding_cells = get_surroundings_cells_to_check(cell_coord)
 	for cell in surrounding_cells:
 		var tile_data = get_cell_tile_data(cell)
 		if tile_data and tile_data.get_custom_data("has_mine"):
@@ -116,7 +122,59 @@ func get_surrounding_cells_mine_count(cell_coord: Vector2i):
 func lose(cell_coord: Vector2i):
 	game_lost.emit()
 	
+	is_game_finished = true
+	
 	for cell in cells_with_mines:
 		set_tile_cell(cell, "MINE")
 	
 	set_tile_cell(cell_coord, "MINE_RED")
+
+func place_flag(cell_coord: Vector2i):
+	var tile_data = get_cell_tile_data(cell_coord)
+	
+	var atlas_coord = get_cell_atlas_coords(cell_coord)
+	var is_empty_cell = atlas_coord == Vector2i(2, 2)
+	var is_flag_cell = atlas_coord == Vector2i(0, 2)
+
+	if !is_empty_cell and !is_flag_cell:
+		return
+	
+	if is_flag_cell:
+		set_tile_cell(cell_coord, "DEFAULT")
+		cells_with_flags.erase(cell_coord)
+		flags_placed -= 1
+	elif is_empty_cell:
+		if flags_placed == number_of_mines:
+			return
+		
+		flags_placed += 1
+		set_tile_cell(cell_coord, "FLAG")
+		cells_with_flags.append(cell_coord)
+	
+	flag_change.emit(flags_placed)
+	
+	var count = 0
+	for flag_cell in cells_with_flags:
+		for mine in cells_with_mines:
+			if flag_cell == mine:
+				count += 1
+	
+	if count == cells_with_mines.size():
+		win()
+
+func win():
+	is_game_finished = true
+	game_won.emit()
+
+func get_surroundings_cells_to_check(current_cell: Vector2i):
+	var target_cell
+	var surrounding_cells = []
+	
+	for y in range(-1, 2):
+		for x in range(-1, 2):
+			if y == 0 and x == 0:
+				continue
+			target_cell = current_cell + Vector2i(x, y)
+			surrounding_cells.append(target_cell)
+	
+	return surrounding_cells
