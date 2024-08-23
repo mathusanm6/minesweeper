@@ -25,6 +25,7 @@ const CELLS = {
 const TILE_SET_ID = 0
 
 var cells_with_mines = []
+var cells_checked_recursively = []
 
 func _ready() -> void:
 	clear()
@@ -33,6 +34,8 @@ func _ready() -> void:
 		for j in columns:
 			var cell_coord = Vector2i(i - rows / 2, j - columns / 2)
 			set_tile_cell(cell_coord, "DEFAULT")
+	
+	place_mines()
 
 func _input(event: InputEvent):
 	if !(event is InputEventMouseButton) || !event.is_pressed():
@@ -65,3 +68,43 @@ func on_cell_clicked(cell_coord: Vector2i):
 	if cells_with_mines.any(func (cell): return cell.x == cell_coord.x && cell.y == cell_coord.y):
 		print("YOU LOSE")
 		return
+	
+	cells_checked_recursively.append(cell_coord)
+	handle_cells(cell_coord)
+
+func handle_cells(cell_coord: Vector2i):
+	var tile_data = get_cell_tile_data(cell_coord)
+	
+	if tile_data == null:
+		return
+	
+	var cell_has_mine = tile_data.get_custom_data("has_mine")
+	
+	if cell_has_mine:
+		return
+	
+	var mine_count = get_surrounding_cells_mine_count(cell_coord)
+	
+	if mine_count == 0:
+		set_tile_cell(cell_coord, "CLEAR")
+		var surrounding_cells = get_surrounding_cells(cell_coord)
+		for cell in surrounding_cells:
+			handle_surrounding_cell(cell)
+	else:
+		set_tile_cell(cell_coord, "%d" % mine_count)
+
+func handle_surrounding_cell(cell_coord: Vector2i):
+	if cells_checked_recursively.has(cell_coord):
+		return
+	
+	cells_checked_recursively.append(cell_coord)
+	handle_cells(cell_coord)
+	
+func get_surrounding_cells_mine_count(cell_coord: Vector2i):
+	var mine_count = 0
+	var surrounding_cells = get_surrounding_cells(cell_coord)
+	for cell in surrounding_cells:
+		var tile_data = get_cell_tile_data(cell)
+		if tile_data and tile_data.get_custom_data("has_mine"):
+			mine_count += 1
+	return mine_count
