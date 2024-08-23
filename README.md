@@ -17,7 +17,7 @@ The game is currently under development using Godot 4. Below is an image showcas
 	  <span style="font-weight: lighter;text-align: center;">Game Over! Bomb Exploded</span>
 	</td>
   <td style="text-align: center;">
-	  <img src="resources/flag_bomb.png" width="500px"><br>
+	  <img src="resources/flag_bomb.png" width="520px"><br>
 	  <span style="font-weight: lighter;text-align: center;">Flag the bombs</span>
 	</td>
   </tr>
