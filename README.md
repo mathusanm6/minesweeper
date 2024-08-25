@@ -2,23 +2,28 @@
 
 Minesweeper is a classic puzzle game where the objective is to clear a rectangular board containing hidden "mines" without detonating any of them. The game provides clues about the number of neighboring mines in each field to assist the player.
 
-## Current Progress
+# Project Goal
 
-The game is currently under development using Godot 4. Below is an image showcasing the current progress of the game:
+- [x] Get to know about Godot4 and GDScript !
+- [x] Develop my first game with the Godot Engine!
+
+## Screenshots
 
 <table>
   <tr>
 	<td style="text-align: center;">
-	  <img src="resources/start.png" width="500px"><br>
-	  <span style="font-weight: lighter;text-align: center;">Clean Board</span>
+	  <img src="resources/clean_board.png" width="500px"><br>
 	</td>
 	<td style="text-align: center;">
-	  <img src="resources/won.png" width="500px"><br>
-	  <span style="font-weight: lighter;text-align: center;">Won! :)</span>
+	  <img src="resources/bomb_exploded.png" width="500px"><br>
 	</td>
-  <td style="text-align: center;">
-	  <img src="resources/lost.png" width="520px"><br>
-	  <span style="font-weight: lighter;text-align: center;">Lost! :(</span>
+  </tr>
+  <tr>
+	<td style="text-align: center;">
+		<img src="resources/lost_flag.png" width="520px"><br>
+	</td>
+	<td style="text-align: center;">
+		<img src="resources/flags.png" width="520px"><br>
 	</td>
   </tr>
 </table>
