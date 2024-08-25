@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://dixoivgjsicmm"]
+[gd_scene load_steps=7 format=3 uid="uid://dixoivgjsicmm"]
 
 [ext_resource type="Texture2D" uid="uid://bv2e0jalfn66y" path="res://Assets/minesweeper_atlas.png" id="1_ipkrq"]
 [ext_resource type="Script" path="res://Scripts/mines_grid.gd" id="2_eqje7"]
+[ext_resource type="PackedScene" uid="uid://ci2h3qilfii7k" path="res://Scenes/ui.tscn" id="3_6iise"]
+[ext_resource type="PackedScene" uid="uid://byetsbtrwtbow" path="res://Scenes/game_state_manager.tscn" id="4_xqnvr"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4pxvv"]
 texture = ExtResource("1_ipkrq")
@@ -40,5 +42,12 @@ sources/0 = SubResource("TileSetAtlasSource_4pxvv")
 zoom = Vector2(3, 3)
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
+position = Vector2(0, 5)
 tile_set = SubResource("TileSet_ypy81")
 script = ExtResource("2_eqje7")
+
+[node name="UI" parent="." instance=ExtResource("3_6iise")]
+
+[node name="GameStateManager" parent="." node_paths=PackedStringArray("mines_grid", "ui") instance=ExtResource("4_xqnvr")]
+mines_grid = NodePath("../TileMapLayer")
+ui = NodePath("../UI")
